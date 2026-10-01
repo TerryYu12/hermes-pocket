@@ -22,19 +22,34 @@
 - 复用官方 dashboard 认证门（密码 / 计划中的一次性配对码），公网场景要求边缘锁（如 Cloudflare Access）；
 - 不新增监听端口、不改动 Hermes core、API key 永不进入浏览器。
 
-## 安装（v0.1.0 发布后）
+## 快速上手
 
 ```bash
+# 1. 安装并启用插件
 hermes plugins install TerryYu12/hermes-pocket --enable
+
+# 2. 体检：检查 API server / dashboard 认证 / Tailscale / 隧道等前置条件
 hermes pocket doctor
+
+# 3. 生成配对二维码：手机扫码直达你的 Hermes
 hermes pocket qr
 ```
 
 开发期（未发布版本）可本地安装：
 
 ```bash
-hermes plugins install "file://F:/path/to/hermes-pocket" --enable
+hermes plugins install "file://<path-to-repo>" --enable
 ```
+
+## 文档索引
+
+| 文档 | 内容 |
+|---|---|
+| [`docs/lan.md`](docs/lan.md) | 局域网接入：同 Wi-Fi 扫码即用，最短路径 |
+| [`docs/tailscale.md`](docs/tailscale.md) | Tailscale 接入（推荐）：跨网访问、零公网暴露 |
+| [`docs/cloudflare.md`](docs/cloudflare.md) | Cloudflare Tunnel + Access（进阶）：公网域名，**必须先配 Access** |
+| [`docs/design.md`](docs/design.md) | 设计文档：目标、架构、安全设计、里程碑 |
+| [`docs/superpowers/plans/2026-10-01-m1-pairing-entry.md`](docs/superpowers/plans/2026-10-01-m1-pairing-entry.md) | M1 配对入口实施计划 |
 
 ## 路线图
 
