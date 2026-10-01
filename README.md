@@ -41,6 +41,15 @@ hermes pocket qr
 hermes plugins install "file://<path-to-repo>" --enable
 ```
 
+### 安装时的安全扫描
+
+本插件来自社区源，安装时 Hermes 会运行安全扫描。预计命中若干 CAUTION 级发现——均为**静态文本命中、无网络外连行为**：
+
+- `pocket/probe.py` / `pocket/net.py`：对 `tailscale` / `cloudflared` 的存在性探测（`shutil.which`），以及一次只读的 `tailscale ip -4` 子进程调用（用于生成候选地址）；
+- 文档与测试中的示例地址（`192.168.x.x`、`127.0.0.1` 等）。
+
+审阅上述发现后，可用 `--force` 覆盖安装。本插件**无遥测、无数据上报**（设计约束）。
+
 ## 文档索引
 
 | 文档 | 内容 |
