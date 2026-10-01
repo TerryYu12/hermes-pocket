@@ -3,5 +3,7 @@ from __future__ import annotations
 
 
 def register(ctx) -> None:
-    """Called by the Hermes plugin loader (CLI wiring lands in Task 4)."""
-    return None
+    """Called by the Hermes plugin loader."""
+    from .pocket import cli as pocket_cli
+
+    pocket_cli.register(ctx)
