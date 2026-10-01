@@ -136,3 +136,9 @@ Hermes dashboard :9119 ── 认证门（密码 ／ M2:配对码）
 | R2 | dashboard UI 移动适配工作量 | 先"能看能聊"最小页 |
 | R3 | 与官方 pairing 方向重合 | 插件优先、对齐官方语义，官方落地后转补充 |
 | R4 | PTY vs 自研聊天 | M1 用既有页面，M3 再评估 |
+
+## 9. 致谢
+
+- 平台：[Hermes Agent](https://github.com/NousResearch/hermes-agent)（MIT）——网页仪表板（9119）、网关与认证体系均为其自带组件，本插件不含自有后端；
+- 工具库：Project Nayuki [QR Code generator](https://www.nayuki.io/page/qr-code-generator-library)（MIT，vendored 于 `pocket/vendor/`）；
+- 设计参考：[ZCode](https://github.com/zai-org/ZCode)「Web Remote Control」的产品形态与公开实现（仅参考，未使用其代码）。

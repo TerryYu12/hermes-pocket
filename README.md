@@ -69,6 +69,15 @@ hermes plugins install "file://<path-to-repo>" --enable
 | M3 | 轻量流式聊天视图等打磨 | 计划中 |
 | M4 | 开源发布 / 插件目录收录 | 计划中 |
 
+## 致谢
+
+本项目的存在建立在以下开源工作之上：
+
+- **[Hermes Agent](https://github.com/NousResearch/hermes-agent)**（NousResearch，MIT）——本插件所扩展的平台本体。**网页仪表板（9119）、常驻网关与认证体系均由 Hermes Agent 提供**，本插件不包含自有后端；`hermes pocket` 只是在其之上增加配对入口与体检能力。
+- **[QR Code generator library](https://www.nayuki.io/page/qr-code-generator-library)**（Project Nayuki，MIT）——以 vendored 方式收录于 `pocket/vendor/qrcodegen.py`（来源 URL 与 sha256 记录见 `pocket/vendor/README.txt`）。
+- **设计参考**：[ZCode](https://github.com/zai-org/ZCode) 的「Web Remote Control」（手机扫码远控）产品形态为配对体验提供了重要参考（仅设计参考，未使用其代码）。
+- 感谢 Hermes 生态中相关方向的探索：[Conduit](https://github.com/cogwheel0/conduit)（移动客户端）、[hermes-tailscale](https://github.com/Adolanium/hermes-tailscale)（Desktop 插件）等项目。
+
 ## License
 
 MIT © 2026 TerryYu12
