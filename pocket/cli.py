@@ -27,6 +27,8 @@ def setup(parser: argparse.ArgumentParser) -> None:
     p_qr.add_argument("--invert", action="store_true", help="Invert colors (for dark terminals)")
     p_qr.add_argument("--list", action="store_true", dest="list_only", help="Only list candidate URLs")
     p_qr.set_defaults(pocket_handler=_handle_qr)
+    p_doc = subs.add_parser("doctor", help="Check remote-access prerequisites and print fixes")
+    p_doc.set_defaults(pocket_handler=_handle_doctor)
 
 
 def handle(args: argparse.Namespace) -> int:
@@ -58,3 +60,17 @@ def _handle_qr(args: argparse.Namespace) -> int:
         out.write_bytes(qr.render_png(qr.make_matrix(target), invert=args.invert))
         print(f"PNG saved: {out}")
     return 0
+
+
+_SYM = {"ok": "\u2713", "warn": "!", "fail": "\u2717", "info": "i"}
+
+
+def _handle_doctor(args: argparse.Namespace) -> int:
+    from . import probe
+
+    checks = probe.run_all()
+    for check in checks:
+        print(f"[{_SYM.get(check.status, '?')}] {check.name}: {check.detail}")
+        if check.fix and check.status in ("warn", "fail"):
+            print(f"    -> {check.fix}")
+    return 0 if all(c.status != "fail" for c in checks) else 1

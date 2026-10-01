@@ -44,3 +44,23 @@ def test_qr_list_only(monkeypatch, capsys):
     assert cli._handle_qr(_ns(list_only=True)) == 0
     out = capsys.readouterr().out
     assert "http://a:9119" in out
+
+
+def test_doctor_handler(monkeypatch, capsys):
+    from pocket import cli, probe
+
+    monkeypatch.setattr(
+        probe, "run_all", lambda: [probe.Check("API server", "ok", "reachable")]
+    )
+    assert cli._handle_doctor(argparse.Namespace()) == 0
+    out = capsys.readouterr().out
+    assert "API server" in out
+
+
+def test_doctor_fail_exit(monkeypatch):
+    from pocket import cli, probe
+
+    monkeypatch.setattr(
+        probe, "run_all", lambda: [probe.Check("API server", "fail", "down", "fix it")]
+    )
+    assert cli._handle_doctor(argparse.Namespace()) == 1
