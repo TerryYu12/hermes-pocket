@@ -21,3 +21,15 @@ def test_no_tailscale(monkeypatch):
     monkeypatch.setattr(net, "tailscale_ip", lambda: None)
     cands = net.detect_candidates(9119)
     assert [c.kind for c in cands] == ["lan"]
+
+
+def test_virtual_ranges_filtered(monkeypatch):
+    monkeypatch.setattr(net, "primary_lan_ip", lambda: "198.18.0.1")
+    monkeypatch.setattr(
+        net.socket,
+        "gethostbyname_ex",
+        lambda host: (host, [], ["192.168.1.3", "198.18.0.1", "169.254.1.1"]),
+    )
+    ips = net.all_lan_ips()
+    assert "192.168.1.3" in ips
+    assert all(not ip.startswith(("198.18.", "198.19.", "169.254.")) for ip in ips)

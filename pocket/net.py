@@ -14,28 +14,37 @@ class Candidate:
     note: str = ""
 
 
+_VIRTUAL_PREFIXES = ("127.", "169.254.", "198.18.", "198.19.")
+
+
+def _is_useful_lan_ip(ip: str) -> bool:
+    """False for loopback / link-local / RFC 2544 benchmark ranges (Clash TUN etc.)."""
+    return not ip.startswith(_VIRTUAL_PREFIXES)
+
+
 def primary_lan_ip() -> str | None:
     """Best-effort primary LAN IPv4 (UDP connect sends no packets)."""
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             sock.connect(("192.0.2.1", 80))
-            return sock.getsockname()[0]
+            ip = sock.getsockname()[0]
         finally:
             sock.close()
     except OSError:
         return None
+    return ip if _is_useful_lan_ip(ip) else None
 
 
 def all_lan_ips() -> list[str]:
     ips: list[str] = []
     try:
         _, _, addrs = socket.gethostbyname_ex(socket.gethostname())
-        ips.extend(a for a in addrs if not a.startswith("127."))
+        ips.extend(a for a in addrs if _is_useful_lan_ip(a))
     except OSError:
         pass
     primary = primary_lan_ip()
-    if primary and not primary.startswith("127.") and primary not in ips:
+    if primary and _is_useful_lan_ip(primary) and primary not in ips:
         ips.insert(0, primary)
     return ips
 
