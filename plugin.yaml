@@ -1,0 +1,4 @@
+name: hermes-pocket
+version: 0.1.0
+description: "Scan, open, chat — pairing QR and remote-access checks for bringing your self-hosted Hermes to a phone. No cloud relay, no telemetry."
+author: "TerryYu12"
